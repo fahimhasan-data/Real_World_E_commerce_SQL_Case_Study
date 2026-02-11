@@ -111,5 +111,4 @@ The focus is not only on writing SQL queries but also on understanding the busin
 This repository reflects structured, business-oriented SQL practice designed to simulate real analyst responsibilities. Every solution aims to connect data analysis with decision-making.
 
 
-## Project Structure
 

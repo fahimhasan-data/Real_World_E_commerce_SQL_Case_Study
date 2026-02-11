@@ -53,13 +53,6 @@ The dataset contains real transactional e-commerce data, including:
 
 ---
 
-## Real_World_E_commerce_SQL_Case_Study/
-│
-├── 01_beginner/
-├── 02_intermediate/
-├── 03_advanced/
-└── README.md
-
 ## 
 ### Folder Breakdown
 

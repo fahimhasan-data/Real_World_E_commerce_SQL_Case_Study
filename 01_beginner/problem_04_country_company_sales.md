@@ -52,9 +52,12 @@ Step 3: Extract unique country values
 ## 5. SQL Implementation
 
 ```sql
-SELECT DISTINCT country
+SELECT 
+    country,
+    SUM(quantity) AS total_quantity_sold
 FROM online_retail
 WHERE invoice_no NOT LIKE 'C%'
   AND quantity > 0
   AND unit_price > 0
-ORDER BY country;
+GROUP BY country
+ORDER BY total_quantity_sold DESC;

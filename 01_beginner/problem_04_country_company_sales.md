@@ -62,7 +62,7 @@ SELECT
     ROUND(
         SUM(quantity * unit_price) * 100.0 
         / SUM(SUM(quantity * unit_price)) OVER (), 
-        2
+        4
     ) AS revenue_percentage
 FROM online_retail
 WHERE invoice_no NOT LIKE 'C%'

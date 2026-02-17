@@ -1,72 +1,60 @@
-# Problem 05: Revenue Contribution by Country (Market Concentration Analysis)
+# Problem 04: Countries Where the Company Generates Sales
 
 ---
 
 ## 1. Business Objective
 
-Determine how much revenue each country contributes as a percentage of total company revenue.
+Identify the countries where the company has successfully generated revenue through completed transactions.
 
 This helps the business:
 
-- Identify primary revenue-driving markets
-- Measure geographic concentration risk
-- Evaluate diversification opportunities
-- Support international expansion strategy
+- Understand geographic market reach
+- Evaluate international expansion
+- Identify high-potential regions
+- Support regional performance analysis
 
 ---
 
 ## 2. Business Context
 
-Knowing where the company sells is useful.
+The dataset contains transaction records, including cancellations and potentially invalid entries.
 
-However, knowing **how much each country contributes financially** is far more strategic.
+If we list countries without filtering:
 
-If revenue is heavily concentrated in one region:
+- Markets with only cancelled transactions may appear as active
+- Geographic presence may be overstated
+- Strategic decisions may rely on inaccurate data
 
-- The business becomes vulnerable to local economic shifts
-- Regulatory or market disruptions can severely impact performance
-- Diversification strategy becomes critical
-
-Therefore, we calculate revenue contribution percentage by country.
+Therefore, we must define what qualifies as a valid sale.
 
 ---
 
-## 3. Revenue Definition
+## 3. Definition of a Valid Sale
 
-Revenue = Quantity × Unit Price
+For this analysis, a valid sale must:
 
-Only valid completed transactions are included:
+- Not be a cancelled invoice (InvoiceNo NOT starting with 'C')
+- Have quantity greater than 0
+- Have unit price greater than 0
 
-- Exclude cancelled invoices (InvoiceNo NOT starting with 'C')
-- Exclude Quantity ≤ 0
-- Exclude Unit Price ≤ 0
+Only countries associated with valid sales will be considered active markets.
 
 ---
 
 ## 4. Analytical Strategy
 
-Step 1: Filter valid transactions  
-Step 2: Calculate revenue per country  
-Step 3: Compute total company revenue  
-Step 4: Calculate percentage contribution per country  
-Step 5: Rank countries by contribution  
+Step 1: Filter out cancelled transactions  
+Step 2: Remove invalid quantity and price records  
+Step 3: Extract unique country values  
 
 ---
 
 ## 5. SQL Implementation
 
 ```sql
-SELECT 
-    country,
-    ROUND(SUM(quantity * unit_price), 2) AS total_revenue,
-    ROUND(
-        SUM(quantity * unit_price) * 100.0 
-        / SUM(SUM(quantity * unit_price)) OVER (), 
-        4
-    ) AS revenue_percentage
+SELECT DISTINCT country
 FROM online_retail
 WHERE invoice_no NOT LIKE 'C%'
   AND quantity > 0
   AND unit_price > 0
-GROUP BY country
-ORDER BY revenue_percentage DESC;
+ORDER BY country;
